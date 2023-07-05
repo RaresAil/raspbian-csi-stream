@@ -56,6 +56,34 @@ $ sudo systemctl enable pi-vid
 
 #### For python script
 
+```
+sudo nano /lib/systemd/system/pi-vid-stream.service
+```
+
+Contents, the WorkingDirectory has to be set inside the folder with app.py
+
+```service
+[Unit]
+Description=The Pi camera stream in HTTP
+Requires=pi-vid.service
+After=pi-vid.service
+
+[Service]
+User=pi
+Type=simple
+WorkingDirectory=/home/pi/raspbian-csi-stream
+ExecStart=/usr/bin/python3 ./app.py
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
+```
+
+To start the service and enable it to start at boot
+```
+$ sudo systemctl start pi-vid-stream
+$ sudo systemctl enable pi-vid-stream
+```
 
 ### To view the stream create a html file with the following data and open it
 
